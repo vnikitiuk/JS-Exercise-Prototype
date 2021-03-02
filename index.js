@@ -39,9 +39,26 @@ function Airplane(name) {
           + It should return a string with `name` and `age`. Example: "Mary, 50"
   */
   
- function Person() {
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];  
+};
+
+Person.prototype.eat = function(food){
+    if(this.stomach.length<10){
+        this.stomach.push(food);
+    }
+};
+
+Person.prototype.poop = function(){
+    this.stomach=[];
+};
+
+Person.prototype.toString = function(){
+    return `${this.name}, ${this.age}`;
+}
     
-  }
  
  
 
@@ -63,9 +80,27 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car() {
-    
-  }
+class Car {
+    constructor(model, milesPerGallon){
+        this.model = model;
+        this.milesPerGallon = milesPerGallon;
+        this.tank = 0;
+        this.odometer = 0;
+    };
+    fill(gallons){
+        this.tank += gallons;
+    };
+    drive(distance){
+         if (this.tank < distance/this.milesPerGallon){
+            this.odometer += this.tank * this.milesPerGallon;
+            this.tank = 0;
+            return `I ran out of fuel at ${this.odometer} miles!`;
+        }else{
+            this.odometer +=distance;
+            this.tank -= (distance/this.milesPerGallon);
+        }
+    };
+}
   
   
   /*
@@ -75,19 +110,18 @@ function Airplane(name) {
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby() {
-   
-  }
- 
-  
-  /* 
-    TASK 4
-    In your own words explain the four principles for the "this" keyword below:
-    1. 
-    2. 
-    3. 
-    4. 
-  */
+
+
+function Baby (name, age, favoriteToy){
+    Person.call(this,name,age);
+    this.favoriteToy = favoriteToy;
+};
+
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function (){
+    return `Play with ${this.favoriteToy}`;
+}
   
   
   ///////// END OF CHALLENGE /////////

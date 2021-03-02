@@ -75,6 +75,51 @@ describe('Instances of Person', () => {
       batmobile.fill(10)
       expect(batmobile.tank).toEqual(20)
     })
+    it('drive method increases miles driven', () => {
+      batmobile.fill(10);
+      expect(batmobile.tank).toEqual(10);
+      let result = batmobile.drive(200);
+      expect(result).toBeUndefined();
+      expect(batmobile.odometer).toEqual(200);
+      expect(batmobile.tank).toEqual(0);
+    })
+    it('drive method rans out of fuel when empty', () => {
+      expect(batmobile.tank).toEqual(0);
+      let result = batmobile.drive(200);
+      expect(result).toEqual('I ran out of fuel at 0 miles!');
+      expect(batmobile.odometer).toEqual(0);
+      expect(batmobile.tank).toEqual(0);
+    })
+    it('drive method rans out of fuel when reaching empty', () => {
+      batmobile.fill(5);
+      expect(batmobile.tank).toEqual(5);
+      let result = batmobile.drive(300);
+      expect(result).toEqual('I ran out of fuel at 100 miles!');
+      expect(batmobile.odometer).toEqual(100);
+      expect(batmobile.tank).toEqual(0);
+    })
+    it('drive method increases miles driven and still has fuel', () => {
+      batmobile.fill(11);
+      expect(batmobile.tank).toEqual(11);
+      let result = batmobile.drive(200);
+      expect(result).toBeUndefined();
+      expect(batmobile.odometer).toEqual(200);
+      expect(batmobile.tank).toEqual(1);
+    })
+    it('drive method rans out of fuel after first trip', () => {
+      batmobile.fill(10);
+      expect(batmobile.tank).toEqual(10);
+      // drive first time
+      let result = batmobile.drive(200);
+      expect(result).toBeUndefined();
+      expect(batmobile.odometer).toEqual(200);
+      expect(batmobile.tank).toEqual(0);
+      // drive second time
+      result = batmobile.drive(200);
+      expect(result).toEqual('I ran out of fuel at 200 miles!');
+      expect(batmobile.odometer).toEqual(200);
+      expect(batmobile.tank).toEqual(0);
+    })
   })
   
   describe('Instances of Baby', () => {
